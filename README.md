@@ -1,4 +1,3 @@
-
 # Caeser Cipher
 Caeser Cipher using with different key values
 ### NAME: SREENITHI E
@@ -417,6 +416,8 @@ The program is executed successfully
 
 # Vigenere Cipher
 Vigenere Cipher using with different key values
+### NAME: SREENITHI E
+### REG NO: 212223220109
 
 # AIM:
 
@@ -441,45 +442,94 @@ The Vigenere cipher is a method of encrypting alphabetic text by using a series 
 
 
 ## PROGRAM:
-PROGRAM:
-#include<stdio.h> #include<string.h>
-//FunctiontoperformVigenereencryption voidvigenereEncrypt(char*text,constchar*key){ inttextLen= strlen(text);
-intkeyLen=strlen(key); for(inti =0;i< textLen;i++){ charc =text[i]; if(c>='A'&&c<='Z'){
-//Encryptuppercaseletters
-text[i]=((c-'A'+key[i%keyLen]-'A')%26)+'A';
-}else if(c>='a'&&c<='z'){
-//Encryptlowercaseletters
-text[i]=((c-'a'+key[i%keyLen]-'A')%26)+'a';
-}
-}
-}
-//FunctiontoperformVigeneredecryption voidvigenereDecrypt(char*text,constchar*key){ inttextLen= strlen(text);
-intkeyLen=strlen(key);
+```
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
-for(inti =0;i< textLen;i++){ charc =text[i]; if(c>='A'&&c<='Z'){
-//Decryptuppercaseletters
- 
-text[i]=((c-'A'-(key[i% keyLen]-'A') +26) %26)+ 'A';
-}else if(c>='a'&&c<='z'){
-//Decryptlowercaseletters
-text[i]=((c-'a'-(key[i% keyLen]-'A') +26) %26)+ 'a';
-}
-}
-}
-intmain(){
-constchar *key="KEY";//Replacewithyourdesired key
-char message[]= "Thisisasecretmessage.";//Replace withyourmessage
-//Encrypt themessage vigenereEncrypt(message,key); printf("EncryptedMessage:%s\n",message);
-//Decrypt themessage backtotheoriginal vigenereDecrypt(message,key); printf("DecryptedMessage:%s\n",message); Return 0;
+void encipher();
+void decipher();
 
+int main() {
+    int choice;
+    while (1) {
+        printf("\n1. ENCRYPT TEXT");
+        printf("\t2. DECRYPED TEXT");
+        printf("\t3. EXIT");
+        printf("\n\nENTER YOUR CHOICE: ");
+        scanf("%d", &choice);
+        getchar(); // Consume newline character after scanf
+        
+        if (choice == 3)
+        { 
+            printf("\nEXIT\n");
+            return 0;
+        }
+        else if (choice == 1)
+            encipher();
+        else if (choice == 2)
+            decipher();
+        else
+            printf("PLEASE ENTER A VALID OPTION.\n");
+    }
+}
+
+void encipher() {
+    unsigned int i, j;
+    char input[50], key[10];
+    printf("\nENCRYPTION\n");
+
+    printf("\nENTER PLAIN TEXT: ");
+    scanf("%49s", input); // Prevent buffer overflow
+
+    printf("\nENTER KEY VALUE: ");
+    scanf("%9s", key); // Prevent buffer overflow
+
+    printf("\nRESULTANT CIPHER TEXT: ");
+    for (i = 0, j = 0; i < strlen(input); i++, j++) {
+        if (j >= strlen(key)) {
+            j = 0; // Reset key index if it exceeds the key length
+        }
+        printf("%c", 65 + (((toupper(input[i]) - 65) + (toupper(key[j]) - 65)) % 26)); // Encryption formula
+    }
+    printf("\n"); // New line after output
+}
+
+void decipher() {
+    unsigned int i, j;
+    char input[50], key[10];
+    int value;
+    printf("\nDECRYPTION\n");
+
+    printf("\nENTER CIPHER TEXT: ");
+    scanf("%49s", input); // Prevent buffer overflow
+
+    printf("\nENTER THE KEY VALUE: ");
+    scanf("%9s", key); // Prevent buffer overflow
+
+    printf("\nDECRYPTED PLAIN TEXT: ");
+    for (i = 0, j = 0; i < strlen(input); i++, j++) {
+        if (j >= strlen(key)) {
+            j = 0; // Reset key index if it exceeds the key length
+        }
+        // Decryption formula
+        value = (toupper(input[i]) - 65) - (toupper(key[j]) - 65);
+        if (value < 0) {
+            value += 26; // Correct the negative wrap-around in the alphabet
+        }
+        printf("%c", 65 + (value % 26));
+    }
+    printf("\n"); // New line after output
+}
+```
 ## OUTPUT:
-OUTPUT :
-
-Simulating Vigenere Cipher
 
 
-Input Message : SecurityLaboratory
-Encrypted Message : NMIYEMKCNIQVVROWXC Decrypted Message : SECURITYLABORATORY
+
+![image](https://github.com/user-attachments/assets/8062ffac-c7b0-4623-bab7-3b767bca1150)
+
+
 ## RESULT:
 The program is executed successfully
 
@@ -487,6 +537,8 @@ The program is executed successfully
 
 # Rail Fence Cipher
 Rail Fence Cipher using with different key values
+## NAME:SREENITHI
+## REG:212223220109
 
 # AIM:
 
@@ -509,57 +561,54 @@ ALGORITHM DESCRIPTION:
 In the rail fence cipher, the plaintext is written downwards and diagonally on successive "rails" of an imaginary fence, then moving up when we reach the bottom rail. When we reach the top rail, the message is written downwards again until the whole plaintext is written out. The message is then read off in rows.
 
 ## PROGRAM:
-
-PROGRAM:
-#include<stdio.h> #include<string.h> #include<stdlib.h> main()
-{
-int i,j,len,rails,count,code[100][1000]; char str[1000];
-printf("Enter a Secret Message\n"); gets(str);
-len=strlen(str);
-printf("Enter number of rails\n"); scanf("%d",&rails); for(i=0;i<rails;i++)
-{
-for(j=0;j<len;j++)
-{
-code[i][j]=0;
-}
-}
-count=0; j=0;
-while(j<len)
-{
-if(count%2==0)
-{
-for(i=0;i<rails;i++)
-{
-//strcpy(code[i][j],str[j]);
-code[i][j]=(int)str[j]; j++;
-}
-
-}
-else
-{
+```
+#include <stdio.h>
+ #include <string.h>
+ int main() {
+ int i, j, k, l;
+ char a[20], c[20], d[20];
+ printf("\n\t\tRAIL FENCE TECHNIQUE\n");
+ printf("\nEnter the input string: ");
+ fgets(a, sizeof(a), stdin);
+ a[strcspn(a, "\n")] = '\0';
+ l = strlen(a); 
+ for (i = 0, j = 0; i < l; i++) {
+ if (i % 2 == 0) {
+ c[j++] = a[i];
+ }
+ }
+ for (i = 0; i < l; i++) {
+ if (i % 2 == 1) {
+ c[j++] = a[i];
+ }
+ }
+ c[j] = '\0'; 
+ printf("\nCipher text after applying rail fence: %s\n", c);
  
-for(i=rails-2;i>0;i--)
-{
-code[i][j]=(int)str[j]; j++;
-}
-}
-
-count++;
-}
-
-for(i=0;i<rails;i++)
-{
-for(j=0;j<len;j++)
-{
-if(code[i][j]!=0) printf("%c",code[i][j]);
-}
-}
-printf("\n");
-}
+ if (l % 2 == 0) {
+ k =l / 2;
+ } else {
+ k =(l / 2) + 1;
+ }
+ 
+ for (i = 0, j = 0; i < k; i++) {
+ d[j] = c[i];
+ j += 2;
+ }
+ for (i = k, j = 1; i < l; i++) {
+ d[j] = c[i];
+ j += 2;
+ }
+ d[l] = '\0'; 
+ printf("\nText after decryption: %s\n", d);
+ return 0; 
+ }
+ ```
 ## OUTPUT:
-OUTPUT:
-Enter a Secret Message wearediscovered
-Enter number of rails 2
-waeicvrderdsoee
+
+
+![Screenshot 2025-04-12 214531](https://github.com/user-attachments/assets/ffe9180f-4321-489b-b135-9dd13f856684)
+
+
 ## RESULT:
 The program is executed successfully
